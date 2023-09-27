@@ -6,3 +6,5 @@ export default function getAvatarColor(name) {
 
   return `#${'0'.repeat(6 - hexCode.length) + hexCode}`;
 }
+
+

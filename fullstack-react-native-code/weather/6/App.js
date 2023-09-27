@@ -47,7 +47,7 @@ export default class App extends React.Component {
           error: false,
           location,
           weather,
-          temperature,
+          temperature, //setState使用对象简写形式,对象属性值也使用简写,属性名与变量名一致时可以省略属性名
         });
       } catch (e) {
         this.setState({
@@ -71,7 +71,27 @@ export default class App extends React.Component {
         >
           <View style={styles.detailsContainer}>
             <ActivityIndicator animating={loading} color="white" size="large" />
-
+              {/* <ActivityIndicator>组件用于显示加载动画指示器。
+              在这个代码中:<ActivityIndicator animating={loading} color="white" size="large" />
+              作用和含义如下:
+              - ActivityIndicator 是加载动画组件
+              - animating={loading}
+                - loading 是来自组件状态的加载状态变量
+                - 当loading为true时,动画会启动旋转
+                - 根据loading状态控制动画是否启动
+              - color="white"
+                - 设置动画颜色为白色
+              - size="large"
+                - 设置动画大小为大尺寸
+              所以这行代码的功能是:
+              - 根据组件状态loading的值,控制动画是否启动
+              - 当loading为true时,显示大尺寸的白色加载动画
+              - 通过状态管理动画的显示/隐藏
+              一般来说:
+              - 使用ActivityIndicator显示加载状态
+              - 根据状态变量控制它的显示
+              - 设置合适的大小和颜色
+              这样就实现了基于状态控制的加载动画显示。  */}
             {!loading && (
               <View>
                 {error && (
