@@ -1,3 +1,4 @@
+// 导入React库和所需组件
 import React from 'react';
 import {
   StyleSheet,
@@ -8,11 +9,14 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
+// 导入自定义颜色工具
 import colors from '../utils/colors';
 
+// 定义一个可导出的函数组件ContactListItem，用于渲染联系人列表项
 export default function ContactListItem({
   name, avatar, phone, onPress,
 }) {
+  // 返回一个可触摸的视图组件，当按下时会改变背景颜色并触发onPress事件
   return (
     <TouchableHighlight
       underlayColor={colors.grey}
@@ -20,6 +24,7 @@ export default function ContactListItem({
       onPress={onPress}
     >
       <View style={styles.contactInfo}>
+        // 渲染联系人头像
         <Image
           style={styles.avatar}
           source={{
@@ -28,7 +33,9 @@ export default function ContactListItem({
         />
 
         <View style={styles.details}>
+          // 渲染联系人姓名
           <Text style={[styles.title]}>{name}</Text>
+          // 渲染联系人电话号码
           <Text style={styles.subtitle}>{phone}</Text>
         </View>
       </View>
@@ -36,6 +43,7 @@ export default function ContactListItem({
   );
 }
 
+// 定义ContactListItem组件的属性类型
 ContactListItem.propTypes = {
   name: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
@@ -43,6 +51,7 @@ ContactListItem.propTypes = {
   onPress: PropTypes.func.isRequired,
 };
 
+// 定义组件的样式
 const styles = StyleSheet.create({
   container: {
     paddingLeft: 24,

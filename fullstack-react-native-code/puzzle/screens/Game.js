@@ -1,3 +1,4 @@
+// 导入必要的组件和工具库
 import {
   ActivityIndicator,
   Alert,
@@ -8,6 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import React from 'react';
 
+// 导入与拼图相关的工具函数和组件
 import { move, movableSquares, isSolved } from '../utils/puzzle';
 import Board from '../components/Board';
 import Button from '../components/Button';
@@ -16,6 +18,7 @@ import Preview from '../components/Preview';
 import Stats from '../components/Stats';
 import configureTransition from '../utils/configureTransition';
 
+// 定义状态常量，用于管理游戏的过渡状态
 const State = {
   LoadingImage: 'LoadingImage',
   WillTransitionIn: 'WillTransitionIn',
@@ -23,7 +26,9 @@ const State = {
   WillTransitionOut: 'WillTransitionOut',
 };
 
+// 导出默认类 Game，代表一个游戏会话
 export default class Game extends React.Component {
+  // 定义 Game 的属性类型
   static propTypes = {
     puzzle: PuzzlePropType.isRequired,
     image: Image.propTypes.source,
@@ -31,10 +36,12 @@ export default class Game extends React.Component {
     onQuit: PropTypes.func.isRequired,
   };
 
+  // 设置 Game 的默认属性
   static defaultProps = {
     image: null,
   };
 
+  // 构造函数，初始化游戏状态
   constructor(props) {
     super(props);
 
@@ -51,6 +58,7 @@ export default class Game extends React.Component {
     configureTransition();
   }
 
+  // 当组件接收到新属性时触发
   componentWillReceiveProps(nextProps) {
     const { image } = nextProps;
     const { transitionState } = this.state;
@@ -62,6 +70,7 @@ export default class Game extends React.Component {
     }
   }
 
+  // 处理拼图板过渡进入时的逻辑
   handleBoardTransitionIn = () => {
     this.intervalId = setInterval(() => {
       const { elapsed } = this.state;
@@ -70,6 +79,7 @@ export default class Game extends React.Component {
     }, 1000);
   };
 
+  // 处理拼图板过渡退出时的逻辑
   handleBoardTransitionOut = async () => {
     const { onQuit } = this.props;
 
@@ -80,12 +90,14 @@ export default class Game extends React.Component {
     onQuit();
   };
 
+  // 请求退出游戏的逻辑
   requestTransitionOut = () => {
     clearInterval(this.intervalId);
 
     this.setState({ transitionState: State.RequestTransitionOut });
   };
 
+  // 处理用户点击退出按钮时的逻辑
   handlePressQuit = () => {
     Alert.alert(
       'Quit',
@@ -101,6 +113,7 @@ export default class Game extends React.Component {
     );
   };
 
+  // 处理用户点击拼图块时的逻辑
   handlePressSquare = square => {
     const { puzzle, onChange } = this.props;
     const { moves } = this.state;
@@ -118,10 +131,13 @@ export default class Game extends React.Component {
     }
   };
 
+  // 渲染游戏界面
   render() {
+    // 解构出所需的props和state
     const { puzzle, puzzle: { size }, image } = this.props;
     const { transitionState, moves, elapsed, previousMove } = this.state;
 
+    // 根据transitionState决定是否渲染组件
     return (
       transitionState !== State.WillTransitionOut && (
         <View style={styles.container}>
@@ -135,12 +151,19 @@ export default class Game extends React.Component {
                 <Stats moves={moves} time={elapsed} />
               </View>
               <Board
+                // 传递谜题数据给棋盘
                 puzzle={puzzle}
+                // 传递图像数据给棋盘
                 image={image}
+                // 传递上一步移动的信息给棋盘
                 previousMove={previousMove}
+                // 根据过渡状态决定是否拆解棋盘
                 teardown={transitionState === State.RequestTransitionOut}
+                // 当棋盘上的方块被点击时触发移动方块的处理函数
                 onMoveSquare={this.handlePressSquare}
+                // 当棋盘过渡出去时触发处理函数
                 onTransitionOut={this.handleBoardTransitionOut}
+                // 当棋盘过渡进来时触发处理函数
                 onTransitionIn={this.handleBoardTransitionIn}
               />
               <Button title={'Quit'} onPress={this.handlePressQuit} />
@@ -152,6 +175,7 @@ export default class Game extends React.Component {
   }
 }
 
+// 定义样式
 const styles = StyleSheet.create({
   container: {
     flex: 1,

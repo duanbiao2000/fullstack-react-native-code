@@ -9,11 +9,20 @@ import {
 } from 'react-native';
 import React from 'react';
 
+/**
+ * 网络状态组件，用于显示当前的网络连接状态
+ * 通过监听网络变化事件，更新组件的状态，以反映当前的网络连接类型
+ * 在iOS和Android平台上表现略有不同
+ */
 export default class Status extends React.Component {
   state = {
-    connectionType: null,
+    connectionType: null, // 当前的网络连接类型
   };
 
+  /**
+   * 组件挂载前的异步操作
+   * 订阅网络变化事件，获取初始的网络连接信息，并更新组件状态
+   */
   async componentWillMount() {
     this.subscription = NetInfo.addEventListener(
       'connectionChange',
@@ -21,17 +30,21 @@ export default class Status extends React.Component {
     );
 
     const { type } = await NetInfo.getConnectionInfo();
-
     this.setState({ connectionType: type });
-
-    // We can use this to test changes in network connectivity
-    // setTimeout(() => this.handleChange('none'), 3000);
   }
 
+  /**
+   * 组件卸载前的操作
+   * 取消网络变化事件的订阅，避免内存泄漏
+   */
   componentWillUnmount() {
     this.subscription.remove();
   }
 
+  /**
+   * 网络连接类型变化的处理函数
+   * @param {string} connectionType - 新的网络连接类型
+   */
   handleChange = connectionType => {
     this.setState({ connectionType });
   };
@@ -39,10 +52,10 @@ export default class Status extends React.Component {
   render() {
     const { connectionType } = this.state;
 
-    const isConnected = connectionType !== 'none';
+    const isConnected = connectionType !== 'none'; // 判断是否有网络连接
+    const backgroundColor = isConnected ? 'white' : 'red'; // 根据网络状态设置背景颜色
 
-    const backgroundColor = isConnected ? 'white' : 'red';
-
+    // 设置状态栏样式
     const statusBar = (
       <StatusBar
         backgroundColor={backgroundColor}
@@ -51,6 +64,7 @@ export default class Status extends React.Component {
       />
     );
 
+    // 渲染消息容器
     const messageContainer = (
       <View style={styles.messageContainer} pointerEvents={'none'}>
         {statusBar}
@@ -62,6 +76,7 @@ export default class Status extends React.Component {
       </View>
     );
 
+    // 根据操作系统不同，渲染不同的样式
     if (Platform.OS === 'ios') {
       return (
         <View style={[styles.status, { backgroundColor }]}>
@@ -74,6 +89,7 @@ export default class Status extends React.Component {
   }
 }
 
+// 根据操作系统设置状态栏高度
 const statusHeight = Platform.OS === 'ios' ? Constants.statusBarHeight : 0;
 
 const styles = StyleSheet.create({

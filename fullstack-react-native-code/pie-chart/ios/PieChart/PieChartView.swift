@@ -8,20 +8,21 @@
 
 import Foundation
 
+// PieChartView 类继承自 UIView，用于显示饼图
 class PieChartView: UIView {
 
-  // MARK: - React
-
+  // 当属性更改时触发重绘
   override func didSetProps(_ changedProps: [String]!) {
     setNeedsDisplay()
   }
 
-  // MARK: - Public
-
+  // 设置饼图的边框宽度
   @objc var strokeWidth: CGFloat = 0.0
 
+  // 设置饼图的边框颜色
   @objc var strokeColor: UIColor = .clear
 
+  // 设置饼图的数据源，每个数据项包含颜色和数值，用于生成饼图的各个部分
   @objc var data: NSArray = [] {
     didSet {
       slices = data.map({ item in
@@ -37,17 +38,16 @@ class PieChartView: UIView {
     }
   }
 
-  // MARK: - Private
-
+  // 内部结构，表示饼图的一个切片
   private struct PieChartSlice {
     let color: UIColor
     let value: Double
   }
 
+  // 存储饼图的所有切片
   private var slices: [PieChartSlice] = []
 
-  // MARK: - Drawing
-
+  // 重写 draw 方法，实现饼图的绘制
   override func draw(_ rect: CGRect) {
     super.draw(rect)
 

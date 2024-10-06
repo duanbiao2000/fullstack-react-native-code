@@ -2,11 +2,16 @@ package com.piechart;
 
 import com.facebook.react.ReactActivity;
 
+/**
+ * 主活动类，继承自ReactActivity，用于初始化React应用.
+ */
 public class MainActivity extends ReactActivity {
 
     /**
-     * Returns the name of the main component registered from JavaScript.
-     * This is used to schedule rendering of the component.
+     * 返回JavaScript中注册的主要组件的名称.
+     * 这用于调度组件的渲染.
+     * 
+     * @return String 主组件的名称.
      */
     @Override
     protected String getMainComponentName() {

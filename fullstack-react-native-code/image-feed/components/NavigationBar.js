@@ -2,12 +2,25 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import PropTypes from 'prop-types';
 import React from 'react';
 
+/**
+ * 导航栏组件
+ * 
+ * 此组件用于在屏幕的顶部提供一个导航栏，显示当前屏幕的标题以及左侧的返回按钮
+ * 它通过props接收标题文本、左侧按钮文本以及左侧按钮的点击事件处理函数
+ * 
+ * @param {string} title - 当前屏幕的标题
+ * @param {string} leftText - 左侧按钮的文本
+ * @param {function} onPressLeftText - 点击左侧按钮时触发的事件处理函数
+ * @returns {JSX.Element} - 返回一个包含左侧按钮和标题的视图
+ */
 export default function NavigationBar({ title, leftText, onPressLeftText }) {
   return (
     <View style={styles.container}>
+      // 左侧按钮，通常用于返回上一级
       <TouchableOpacity style={styles.leftText} onPress={onPressLeftText}>
         <Text>{leftText}</Text>
       </TouchableOpacity>
+      // 当前屏幕的标题
       <Text style={styles.title}>{title}</Text>
     </View>
   );
